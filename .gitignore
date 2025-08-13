@@ -1,7 +1,7 @@
 # Local .terraform directories
 .terraform/
 
-# .tfstate files
+# .tfstate files (Must be ignored as it can contain credentials e.g. passwords, secrets, access keys)
 *.tfstate
 *.tfstate.*
 
@@ -15,6 +15,9 @@ crash.*.log
 # to change depending on the environment.
 *.tfvars
 *.tfvars.json
+
+# Variable definitons - Likely to contain more sensitive data
+variable.tf
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
