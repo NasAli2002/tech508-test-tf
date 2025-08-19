@@ -9,13 +9,14 @@
 # This file contains the updated Terraform code that uses variables.
  
 # AWS provider configuration
+# AWS provider configuration
 provider "aws" {
   region = var.aws_region
 }
  
 # Get IP of local machine
 data "http" "my_ip" {
-url = "https://checkip.amazonaws.com"
+  url = "https://checkip.amazonaws.com"
 }
  
 # Format the IP for CIDR
@@ -67,7 +68,14 @@ resource "aws_instance" "web" {
   instance_type               = var.instance_type
   associate_public_ip_address = true
   key_name                    = var.key_name
-vpc_security_group_ids = [aws_security_group.allow_ports.id]
+  vpc_security_group_ids      = [aws_security_group.allow_ports.id]
+ 
+   # Add your user data script
+  user_data = <<-EOF
+              #!/bin/bash
+              cd repo/app
+              pm2 start app.js
+              EOF
  
   tags = {
     Name = var.instance_name
@@ -79,3 +87,5 @@ output "instance_public_ip" {
   description = "Public IP of the EC2 instance"
   value       = aws_instance.web.public_ip
 }
+ 
+ 
